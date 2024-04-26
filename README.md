@@ -4,5 +4,3 @@
 # 用法
 
 在你的windows10电脑上安装codeblock之后直接打开 `LittlevGL.cbp` 即可。
-
-> codeblock安装包位于仓库根目录： `03_开发软件/codeblocks-20.03-setup.exe` 
