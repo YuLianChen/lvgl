@@ -24,7 +24,7 @@ extern "C" {
  * GLOBAL PROTOTYPES
  **********************/
 void lv_100ask_demo_course_2_2_6(void);
-
+void chen_learn_2_2_6(void);
 
 /**********************
  *      MACROS

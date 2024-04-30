@@ -18,7 +18,6 @@
  ******************************************************************************
  */
 
-
 /*********************
  *      INCLUDES
  *********************/
@@ -28,56 +27,95 @@
 
 #include "lv_100ask_demo_course_2_2_6.h"
 
-
 /*********************
  *      DEFINES
  *********************/
-
 
 /**********************
  *  STATIC VARIABLES
  **********************/
 
 #if 1
-static void my_event_cb(lv_event_t * e)
+static void my_event_cb(lv_event_t *e)
 {
-    lv_obj_t * obj = lv_event_get_target(e);        // 获取触发事件的部件(对象)
-    lv_event_code_t code = lv_event_get_code(e);    // 获取当前部件(对象)触发的事件代码
-    lv_obj_t * label = lv_event_get_user_data(e);   // 获取添加事件时传递的用户数据
+    lv_obj_t *obj = lv_event_get_target(e);      // 获取触发事件的部件(对象)
+    lv_event_code_t code = lv_event_get_code(e); // 获取当前部件(对象)触发的事件代码
+    lv_obj_t *label = lv_event_get_user_data(e); // 获取添加事件时传递的用户数据
 
-    switch(code){
-        case LV_EVENT_PRESSED:
-            lv_label_set_text(label, "LV_EVENT_PRESSED");
-            lv_obj_set_style_bg_color(obj, lv_color_hex(0xc43e1c), 0);  // 通过本地样式(私有样式)设置背景色
-            printf("LV_EVENT_PRESSED\n");
-            break;
-        case LV_EVENT_LONG_PRESSED:
-            lv_label_set_text(label, "LV_EVENT_LONG_PRESSED");
-            lv_obj_set_style_bg_color(obj, lv_color_hex(0x4cbe37), 0);  // 通过本地样式(私有样式)设置背景色
-            printf("LV_EVENT_LONG_PRESSED\n");
-            break;
-        default:
-            //printf("NONE\n");
-            break;
+    switch (code)
+    {
+    case LV_EVENT_PRESSED:
+        lv_label_set_text(label, "LV_EVENT_PRESSED");
+        lv_obj_set_style_bg_color(obj, lv_color_hex(0xc43e1c), 0); // 通过本地样式(私有样式)设置背景色
+        printf("LV_EVENT_PRESSED\n");
+        break;
+    case LV_EVENT_LONG_PRESSED:
+        lv_label_set_text(label, "LV_EVENT_LONG_PRESSED");
+        lv_obj_set_style_bg_color(obj, lv_color_hex(0x4cbe37), 0); // 通过本地样式(私有样式)设置背景色
+        printf("LV_EVENT_LONG_PRESSED\n");
+        break;
+    default:
+        // printf("NONE\n");
+        break;
     }
+}
+
+void test_callBack(lv_event_t *e)
+{
+    // printf("test\n");
+    lv_obj_t *obj = lv_event_get_target(e);
+    lv_obj_t *user_data = lv_event_get_user_data(e);
+    lv_obj_t *block = lv_event_get_current_target(e);
+
+    switch (lv_event_get_code(e))
+    {
+    case LV_EVENT_PRESSING:
+        printf("button is pressed\n");
+        lv_obj_set_style_bg_color(obj, lv_color_hex(0xFF483E), 0);
+         lv_obj_set_style_bg_color(block, lv_color_hex(0xFF483E), 0);
+        lv_label_set_text(user_data, "The button is pressed");
+        break;
+    case LV_EVENT_CLICKED:
+        printf("Button press ends\n");
+        lv_obj_set_style_bg_color(obj, lv_color_hex(0xffffff), 0);
+        lv_obj_set_style_bg_color(block, lv_color_hex(0xffffff), 0);
+        lv_label_set_text(user_data, "Button press ends");
+        break;
+    }
+}
+
+void chen_learn_2_2_6(void)
+{
+    lv_obj_t *obj = lv_obj_create(lv_scr_act());
+    lv_obj_set_align(obj, LV_ALIGN_CENTER);
+    lv_obj_align(obj, LV_ALIGN_CENTER, 0, -100);
+    lv_obj_set_size(obj, 100, 100);
+
+    // 事件冒泡
+    lv_obj_t *block1 = lv_obj_create(obj);
+    lv_obj_set_size(block1, 50, 50);
+    lv_obj_add_flag(block1, LV_OBJ_FLAG_EVENT_BUBBLE);
+
+    lv_obj_t *label = lv_label_create(lv_scr_act());
+    lv_label_set_text(label, "label init");
+    lv_obj_set_align(label, LV_ALIGN_CENTER);
+    lv_obj_add_event_cb(obj, test_callBack, LV_EVENT_ALL, label);
 }
 
 void lv_100ask_demo_course_2_2_6(void)
 {
     /* 创建基础部件(对象) */
-    lv_obj_t * obj = lv_obj_create(lv_scr_act());
+    lv_obj_t *obj = lv_obj_create(lv_scr_act());
 
     /* 创建label部件(对象) */
-    lv_obj_t * label = lv_label_create(lv_scr_act());
-    lv_label_set_text(label, "test");   // 设置label展示的文字
-    lv_obj_center(label);               // 将对象与其父对象的中心对齐，这里的父对象是屏幕：lv_scr_act()
+    lv_obj_t *label = lv_label_create(lv_scr_act());
+    lv_label_set_text(label, "test"); // 设置label展示的文字
+    lv_obj_center(label);             // 将对象与其父对象的中心对齐，这里的父对象是屏幕：lv_scr_act()
 
     // 为obj1添加事件回调函数，所有的事件类型都能触发该回调函数
     lv_obj_add_event_cb(obj, my_event_cb, LV_EVENT_ALL, label);
 }
 #endif // 0
-
-
 
 /* 事件冒泡 */
 #if 0
